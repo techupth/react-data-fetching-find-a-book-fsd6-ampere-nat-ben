@@ -14,24 +14,24 @@ function App() {
     }
     setQuery(e.target.value);
   };
-  useEffect(() => {
-    const initFetch = async () => {
-      try {
+  const initFetch = async () => {
+    try {
+      if (query) {
         setIsLoading(true);
         let url = `https://www.googleapis.com/books/v1/volumes?q=${query}`;
         let response = await axios.get(url);
         setSearchResult(response.data.items);
         setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoading(false);
       }
-    };
-
-    if (query) {
-      initFetch();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
     }
+  };
+
+  useEffect(() => {
+    initFetch();
   }, [query]);
 
   const displaySearchResult = () => {
